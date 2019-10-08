@@ -1,0 +1,15 @@
+Policy Name : root
+Policy Type : inline policy
+
+#Inline Policy Json
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "ssm:*",
+            "Resource": "arn:aws:ssm:*:*:parameter/inventory-app/*",
+            "Effect": "Allow"
+        }
+    ]
+}
