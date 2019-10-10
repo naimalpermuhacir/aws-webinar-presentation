@@ -1,7 +1,7 @@
-Policy Name : root
-Policy Type : inline policy
+# Policy Name : root
+# Policy Type : inline policy
 
-#Inline Policy Json
+# Inline Policy Json
 
 {
     "Version": "2012-10-17",

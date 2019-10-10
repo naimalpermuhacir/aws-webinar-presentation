@@ -1,0 +1,103 @@
+## Creating a VPC and Deploying a Web Application Demosu için Uygulama Adımları
+
+## AWS Management Console adresi => https://console.aws.amazon.com/
+
+## REGION SEÇİMİ
+
+# Bu uygulamada region olarak Ireland Region (eu-west-1) kullanılmıştır. Bu region içinde toplamda 3 adet Avalability Zone bulunmaktadır. (eu-west-1a , eu-west-1b , eu-west-1c)
+
+## VPC OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Your VPC" alanı seçilir.
+# 2) "Create VPC" buttonu ile "Webinar-VPC" isminde 10.0.0.0/16 CIDR IPv4 tanımlamaları yapılır ve "Create" buttonu tıklanır.
+# 3) Dashboard'u üzerinde "Webinar-VPC" seçilir. "Actions" buttonu ile "Edit DNS hostnames" seçilir. DNS hostnames enable aktif hale getirilir.
+
+## INTERNET GATEWAY OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Internet Gateways" alanı seçilir.
+# 2) "Create internet gateway" buttonu ile "Webinar-IG" isminde bir gateway oluşturulur.
+# 3) Dashboard'u üzerinde "Webinar-IG" seçilir. "Actions" buttonu ile "Attach to VPC" seçilir. Dropdown üzerinden Webinar-VPC seçilerek Attach buttonu ile atama gerçekleştirilir.
+
+## SUBNETLERİ OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Subnets" alanı seçilir.
+# 2) "Create Subnet" buttonu ile Name tag= Webinar-Public Subnet 1, VPC= Webinar-VPC, Avalability Zone= eu-west-1a,  IPv4 CIDR block= 10.0.0.0/24 atamaları yapılır ve  "Create" buttonu tıklanır.
+# 3) Dashboard'u üzerinde "Webinar-Public Subnet 1" seçilir. "Actions" buttonu ile "Modify auto-assign IP settings" seçilir. Auto-assign IPv4 enable aktif hale getirilir.
+# 4) "Create Subnet" buttonu ile Name tag= Webinar-Private Subnet 1, Subnet 1, VPC= Webinar-VPC, Avalability Zone= eu-west-1a,  IPv4 CIDR block= 10.0.2.0/23 atamaları yapılır ve  "Create" buttonu tıklanır.
+# 5) "Create Subnet" buttonu ile Name tag= Webinar-Private Subnet 2, VPC= Webinar-VPC, Avalability Zone= eu-west-1b,  IPv4 CIDR block= 10.0.4.0/23 atamaları yapılır ve  "Create" buttonu tıklanır.
+
+## ROOT TABLELARI OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Route Tables" alanı seçilir.VPC ID Webinar-VPC olan kayıt seçilerek, Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Public Route Table" ismi atanır.
+# 2) Dashboard'u üzerinde "Webinar-Public Route Table" seçilir. Açılan alt menü üzerinde "Routes" tabı seçilir.Edit Routes buttonu tıklanarak Add Routes ile Destionation= 0.0.0.0/0 ve Target=Internet Gateway seçilerek "Webinar-IG" ataması yapılır. Save Routes buttonu ile kayıt gerçekleştirilir.
+# 3) Webinar-Public Route Table alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Public Subnet 1 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir.
+# 4) "Create Route Table" buttonu ile Name tag= Webinar-Private Route Table 1, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 5) "Webinar-Private Route Table 1" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Private Subnet 1 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir
+# 6) "Create Route Table" buttonu ile Name tag= Webinar-Private Route Table 2, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 7) "Webinar-Private Route Table 2" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Private Subnet 2 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir.
+
+## SECURITY GROUP OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Security Groups" alanı seçilir.
+# 2) "Create security group" buttonu ile Security group name= Webinar-public,Description= Webinar-public, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 3) Açılan menü üzerinden group name Webinar-Public olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Webapp-SG" ismi atanır.
+# 4) Webinar-Webapp-SG seçilerek alt menü üzerinden Inbound Rules tabı seçilir Edit rules => Add Rule tıklanarak
+ Type= HTTP, Protocol= TCP, Port= 80, Source=Custom seçilerek Save rules buttonu ile ilgili Port ataması yapılır.
+# 5) "Create security group" buttonu ile Security group name= Webinar-Private, Description= Webinar-Private, VPC= Webinar-VPC atamaları yapılır ve "Create" buttonu tıklanır.
+# 6) Açılan menü üzerinden group name Webinar-Private olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Database-SG" ismi atanır.
+# 7) Webinar-Database-SG seçilerek alt menü üzerinden Inbound Rules tabı seçilir Edit rules => Add Rule tıklanarak
+ Type= MYSQL/Aurora, Protocol= TCP, Port= 3306, Source=Custom seçilerek ilgili kutucuğa 10.0.0.0/16 ataması yapılarak Save rules buttonu ile ilgili Port ataması yapılır.
+
+## KEY-PAIR OLUŞTURMA :
+
+# 1) Console üzerinde EC2 hizmeti seçilerek sol menü üzerinden Key-Pairs seçilir.
+# 2) Create Key Pair buttonu tıklanır. Name olarak Webinar-KP tanımlaması yapılır. İlgili pem dosyası locale kaydedilir.
+
+## IAM ROLE OLUŞTURMA :
+
+# 1) Console üzerinde IAM hizmeti seçilerek açılan sol menü üzerinden Roles seçilir. 
+# 2) Create Role buttonu tıklanarak açılan ekran üzerinden AWS Service tipi seçilerek EC2 servisi seçilir. Next:Permissions sonra Next: Tags , bir sonraki adımda Next Review buttonları tıklanır.
+# 3) Açılan ekranda Role Name= Inventory_App_Role olarak ilgili role oluşturulur.
+# 4) Search alanından Inventory_App_Role bulunur.Role içine girildikten sonra Add inline Policy tıklanarak açılan ekranda JSON tabı seçilir. Github reposundaki 04_Inventory-App-Role-JSON.txt dosyası içindeki policy kopyalanıp text editöre yapıştırılır. Preview Policy buttonu tıklanarak Name= root ataması yapılır ve Create Policy buttonu ile ilgili işlem tamamlanır.
+
+## WEB UYGULAMASI İÇİN EC2  OLUŞTURMA :
+
+# 1) Console üzerinde EC2 hizmeti seçilerek açılan ekranda Launch Instance buttonu tıklanır.
+# 2) Sırası ile Amazon Linux 2 AMI seçilir.Type olarak t2.micro seçilir ve Next:Configure Instance Details tıklanır.
+# 3) Açılan ekran üzerinde Network= Webinar-VPC, Subnet= Webinar-Public Subnet 1, IAM Role= Inventory_App_Role seçilir ve Advanced Detail içine github reposundaki 03_ec2_userdata.txt içindeki konfigurasyon kopyalanıp yapıştırılır.
+# 4) Sırası ile Add Storage, Next: Add Tags buttonları değişiklik yapılmadan tıklanır. Açılan ekran üzerinde Key=Name, Value= Webapp Server tanımlamaları yapılarak Next: Configure Security Group buttonu tıklanır.
+# 5) Açılan ekran üzerinde select an existing security group radio button seçilir. Webinar -Public security group tıklanarak Review and Launch Buttonu tıklanır.Launch buttonu tıklanır.
+# 6) Açılan modal üzerinden select an existing key pair ile Webinar-KP key Pair seçilir ve Launch Instances buttonu tıklanarak EC2 oluşturma işlemi tamamlanır.
+# 7) View Instances diyerek oluşturulan Webserver'a ait detayları görebiliriz.
+
+## WEB UYGULAMASI TESTİ :
+
+# 1) EC2 Instances alanından Webapp Server instance seçilerek alt tarafta açılan detay kısmından Public DNS (IPv4) alanındaki bağlantı linki kopyalanarak browserda açılır.
+# 2) Web uygulaması EC2  PHP, MYSQL ve Web uygulaması için user data kopyalanarak yapıldığından web uygulamasının browserdan görüntülenmesi birkaç dakika gibi bir zaman alabilmektedir.
+# 3) Uygulama yayına başladıktan sonra browser üzerinde Inventory uygulamasını görüntüleyebileceğiz.
+
+## RDS İLE DATABASE OLUŞTURMA :
+
+# 1) Console üzerinde RDS hizmeti seçilerek açılan ekranda sol menü üzerinden Subnet groups alanı seçilir.
+# 2) Create DB subnet group buttonu tıklanarak Name= Webinar-Db Subnet Group, Description= Webinar-Db Subnet Group,VPC= Webinar-VPC seçilir.Add all the subnets related to this VPC seçilerek public subnet'e ait 10.0.0.0/24 CIDR bloklu Subnet Remove edilir ve create buttonu ile ilgili subnet group luşturulması tamamlanır.
+# 3) Console üzerinde RDS hizmeti seçilerek açılan ekranda sol menü üzerinden Snapshots alanı seçilir.
+# 4) Snapshots ekranında Owned By Me yazan dropdown üzerinden All Public Snapshots seçilerek search alanında "inventory-db-webinar" yazılarak arn:aws:rds:eu-west-1:138340313734:snapshot:inventory-db-webinar snapshot'ına ulaşılır.
+# 5) Bulunan snapshot seçilerek Actions alanından Restore DB Instance tıklanır.DB Instance class olarak db.t2.micro tipi seçilir.
+# 6) DB Instance Identifier= inventory-db,VPC= Webinar-VPC, subnet group= Webinar-DB Dubnet Group, Public Accessibility= No,Avalaibility Zone= eu-west-1a Tanımlamaları yapılır.
+# 7) VPC security groups alanından Choose existing VPC security groups seçilerek Default-VPC kaldırılıp yerine Webinar-Private Security group seçilir.Kalan ayarlamalar default bırakılır. Restore DB Instance buttonu ile DB nin kurulumu gerçekleştirilir.
+# 8) RDS restore işlemi tamamlanması yaklaşık olarak 5 dakikalık bir zaman almaktadır. Status durumu Available olduktan sonra bir sonraki adıma geçebilmekteyiz.
+
+## WEB UYGULAMASI ve RDS BAĞLANTISI :
+
+# 1) Browser üzerinden Inventory uygulaması açılır.
+# 2) Console üzerinde RDS hizmeti seçilerek açılan ekranda sol menü üzerinden Databases alanı seçilir. Çıkan ekran üzerinden inventory-db seçilerek açılan ekran üzerindeki endpoint kopyalanarak alınır. 
+# 3) Inventory Uygulamasının üst menüsünde bulunan Settings alanı tıklanır ve açılan ekranda  Endpoint= kopyalanan endpoint linki, Database= inventory, Username= master, Password= lab-password olarak tanımlanır.
+# 4) Web uygulaması artık RDS ile bağlantı kurduğu için kaydetme,silme, güncelleme gibi CRUD işlemlerimiz ilgili RDS veritabanı üzerinde gerçekleştirebilmekteyiz.
+
+--------------------------------------------------------------------------------------------------------------------
+
+ 
+
+
+
+
