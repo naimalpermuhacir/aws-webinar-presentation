@@ -4,4 +4,4 @@ Merhabalar BilgeAdam Teknoloji olarak bir webinar serisi ile sizlere AWS üzerin
 
 ## Webinar Afiş
 
-![webinar_tarhileri.jpeg](https://github.com/serkanbingol/aws-webinar-presentation/blob/master/Pictures/intro/aws-webinar.jpeg)
+![webinar_tarhileri.jpeg](https://github.com/serkanbingol/aws-webinar-presentation/blob/master/aws-webinar.jpeg)
