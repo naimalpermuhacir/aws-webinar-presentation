@@ -40,7 +40,7 @@
 # 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Security Groups" alanı seçilir.
 # 2) "Create security group" buttonu ile Security group name= Webinar-Public-LB,Description= Webinar-Public-LB, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
 # 3) Açılan menü üzerinden group name Webinar-Public-LB olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-LB-SG" ismi atanır.
-# 4) Webinar-App-SG seçilerek alt menü üzerinden Inbound Rules tabı seçilir Edit rules => Add Rule tıklanarak
+# 4) Webinar-LB-SG seçilerek alt menü üzerinden Inbound Rules tabı seçilir Edit rules => Add Rule tıklanarak
  Type= HTTP, Protocol= TCP, Port= 80, Source=Anywhere seçilerek Save rules buttonu ile ilgili Port ataması yapılır.
  Type= HTTPS, Protocol= TCP, Port= 443, Source=Anywhere seçilerek Save rules buttonu ile ilgili Port ataması yapılır.
 # 5) "Create security group" buttonu ile Security group name= Webinar-Private-App, Description= Webinar-Private-App, VPC= Webinar-VPC atamaları yapılır ve "Create" buttonu tıklanır.
