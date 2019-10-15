@@ -10,26 +10,26 @@
 
 # 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Your VPC" alanı seçilir.
 # 2) "Create VPC" buttonu ile "Webinar-VPC" isminde 10.0.0.0/16 CIDR IPv4 tanımlamaları yapılır ve "Create" buttonu tıklanır.
-# 3) Dashboard'u üzerinde "Webinar-VPC" seçilir. "Actions" buttonu ile "Edit DNS hostnames" seçilir. DNS hostnames enable aktif hale getirilir.
+# 3) Dashboard üzerinde "Webinar-VPC" seçilir. "Actions" buttonu ile "Edit DNS hostnames" seçilir. DNS hostnames enable aktif hale getirilir.
 
 ## INTERNET GATEWAY OLUŞTURMA :
 
 # 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Internet Gateways" alanı seçilir.
 # 2) "Create internet gateway" buttonu ile "Webinar-IG" isminde bir gateway oluşturulur.
-# 3) Dashboard'u üzerinde "Webinar-IG" seçilir. "Actions" buttonu ile "Attach to VPC" seçilir. Dropdown üzerinden Webinar-VPC seçilerek Attach buttonu ile atama gerçekleştirilir.
+# 3) Dashboard üzerinde "Webinar-IG" seçilir. "Actions" buttonu ile "Attach to VPC" seçilir. Dropdown üzerinden Webinar-VPC seçilerek Attach buttonu ile atama gerçekleştirilir.
 
 ## SUBNETLERİ OLUŞTURMA :
 
 # 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Subnets" alanı seçilir.
 # 2) "Create Subnet" buttonu ile Name tag= Webinar-Public Subnet 1, VPC= Webinar-VPC, Avalability Zone= eu-west-1a,  IPv4 CIDR block= 10.0.0.0/24 atamaları yapılır ve  "Create" buttonu tıklanır.
-# 3) Dashboard'u üzerinde "Webinar-Public Subnet 1" seçilir. "Actions" buttonu ile "Modify auto-assign IP settings" seçilir. Auto-assign IPv4 enable aktif hale getirilir.
-# 4) "Create Subnet" buttonu ile Name tag= Webinar-Private Subnet 1, Subnet 1, VPC= Webinar-VPC, Avalability Zone= eu-west-1a,  IPv4 CIDR block= 10.0.2.0/23 atamaları yapılır ve  "Create" buttonu tıklanır.
+# 3) Dashboard üzerinde "Webinar-Public Subnet 1" seçilir. "Actions" buttonu ile "Modify auto-assign IP settings" seçilir. Auto-assign IPv4 enable aktif hale getirilir.
+# 4) "Create Subnet" buttonu ile Name tag= Webinar-Private Subnet 1, VPC= Webinar-VPC, Avalability Zone= eu-west-1a,  IPv4 CIDR block= 10.0.2.0/23 atamaları yapılır ve  "Create" buttonu tıklanır.
 # 5) "Create Subnet" buttonu ile Name tag= Webinar-Private Subnet 2, VPC= Webinar-VPC, Avalability Zone= eu-west-1b,  IPv4 CIDR block= 10.0.4.0/23 atamaları yapılır ve  "Create" buttonu tıklanır.
 
 ## ROOT TABLELARI OLUŞTURMA :
 
 # 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Route Tables" alanı seçilir.VPC ID Webinar-VPC olan kayıt seçilerek, Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Public Route Table" ismi atanır.
-# 2) Dashboard'u üzerinde "Webinar-Public Route Table" seçilir. Açılan alt menü üzerinde "Routes" tabı seçilir.Edit Routes buttonu tıklanarak Add Routes ile Destionation= 0.0.0.0/0 ve Target=Internet Gateway seçilerek "Webinar-IG" ataması yapılır. Save Routes buttonu ile kayıt gerçekleştirilir.
+# 2) Dashboard üzerinde "Webinar-Public Route Table" seçilir. Açılan alt menü üzerinde "Routes" tabı seçilir.Edit Routes buttonu tıklanarak Add Routes ile Destionation= 0.0.0.0/0 ve Target=Internet Gateway seçilerek "Webinar-IG" ataması yapılır. Save Routes buttonu ile kayıt gerçekleştirilir.
 # 3) Webinar-Public Route Table alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Public Subnet 1 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir.
 # 4) "Create Route Table" buttonu ile Name tag= Webinar-Private Route Table 1, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
 # 5) "Webinar-Private Route Table 1" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Private Subnet 1 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir

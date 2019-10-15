@@ -1,0 +1,15 @@
+##Mysql ile  EC2 Webapp Serverdan RDS Bağlantısı
+
+mysql -h [rds endpoint] -P 3306 -u master -p
+
+## Veri Tabanı Seçimi
+
+use inventory;
+
+## Tabloları gösterme
+
+show tables;
+
+## Tablonun Kayıtlarını Listeleme
+
+select * from inventory
