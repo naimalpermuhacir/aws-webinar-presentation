@@ -81,7 +81,7 @@
 # 2) Create Load Balancer buttonu tıklanarak açılan ekran üzerinden "Application Load Balancer" Seçimi yapılır ve Create Buttonu tıklanır.
 # 3) Name ataması için Webinar-LB kullanarak , Availability zone alanında VPC için Webinar-VPC, Availability Zone 1 için Webinar-Public Subnet 1, Availability Zone 2 için Webinar-Public Subnet 2 seçilir.
 # 4) Configure Security Setting alanı içinden select existing security group seçilerek Webinar-LB-SG ataması yapılır.
-# 5) Configure Routing aşamasında Name= Inventory App ataması yapılır. (Auto Scaling içinde bu Name ataması ile instancelarımızı oluşturacağız.)
+# 5) Configure Routing aşamasında Name= Inventory-App ataması yapılır. (Auto Scaling içinde bu Name ataması ile instancelarımızı oluşturacağız.)
 # 6) Advanced healt check settings alanından healthy treshold=2 ve Interval=10 ataması yapılır.
 # 7) Register target adımı atlanacaktır. (Auto Scaling aşamasında target group tanımlanacaktır).
 # 8) Create buttonu ile Application Load Balancer oluşturulmuş olacaktır.
