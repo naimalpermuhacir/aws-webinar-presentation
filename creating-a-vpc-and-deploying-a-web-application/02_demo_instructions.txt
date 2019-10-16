@@ -4,7 +4,7 @@
 
 ## REGION SEÇİMİ
 
-# Bu uygulamada region olarak Ireland Region (eu-west-1) kullanılmıştır. Bu region içinde toplamda 3 adet Avalability Zone bulunmaktadır. (eu-west-1a , eu-west-1b , eu-west-1c)
+# Bu uygulamada region olarak Ireland Region (eu-west-1) kullanılmıştır. Bu region içinde toplamda 3 adet Availability Zone bulunmaktadır. (eu-west-1a , eu-west-1b , eu-west-1c)
 
 ## VPC OLUŞTURMA :
 
