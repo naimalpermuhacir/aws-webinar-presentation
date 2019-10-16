@@ -31,9 +31,25 @@
 ## ROOT TABLELARI OLUŞTURMA :
 
 # 1) "Create Route Table" buttonu ile Name tag= Webinar-Public Route Table 1, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
-# 2) "Webinar-Private Route Table 1" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Public Subnet 1 ve 2 atamaları yapılarak save buttonu ile kayıt işlemi gerçekleştirilir
-# 3) "Create Route Table" buttonu ile Name tag= Webinar-Private Route Table 1, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
-# 4) "Webinar-Private Route Table 2" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Private Subnet 1 ve 2 atamaları yapılarak save buttonu ile kayıt işlemi gerçekleştirilir.
+# 2) "Webinar-Public Route Table 1" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Public Subnet 1 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir
+# 3) "Create Route Table" buttonu ile Name tag= Webinar-Public Route Table 2, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 4) "Webinar-Public Route Table 2" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Public Subnet 2 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir
+# 5) "Create Route Table" buttonu ile Name tag= Webinar-Private Route Table 1, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 6) "Webinar-Private Route Table 2" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Private Subnet 1 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir.
+# 5) "Create Route Table" buttonu ile Name tag= Webinar-Private Route Table 2, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 6) "Webinar-Private Route Table 2" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Private Subnet 2 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir.
+
+
+## NAT GATEWAY OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "NAT Gateways" alanı seçilir.
+# 2) "Create NAT gateway" buttonu ile gele ekran üzerinden subnet için Webinar-Public Subnet 1 seçilir ve ElasticIP ataması yapılır.
+# 3) Açılan menü üzerinden oluşturulan olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Public NAT 1" ismi atanır.
+# 4) Route Table menüsü üzerinden Webinar-Private Route Table 1 seçilerek Edit Rule=> Add Rule ,ile 0.0.0.0/0 ve Webinar-Private NAT 1 atamaları gerçekleştirilir.
+# 5) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "NAT Gateways" alanı seçilir.
+# 6) "Create NAT gateway" buttonu ile gele ekran üzerinden subnet için Webinar-Public Subnet 2 seçilir ve ElasticIP ataması yapılır.
+# 7) Açılan menü üzerinden oulşturulan olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Public NAT 2" ismi atanır.
+# 8) Route Table menüsü üzerinden Webinar-Private Route Table 2 seçilerek Edit Rule=> Add Rule ,ile 0.0.0.0/0 ve Webinar-Private NAT 2 atamaları gerçekleştirilir.
 
 ## SECURITY GROUP OLUŞTURMA :
 
