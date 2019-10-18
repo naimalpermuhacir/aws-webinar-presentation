@@ -1,0 +1,140 @@
+## Creating a High Available Environment Demosu için Uygulama Adımları
+
+## AWS Management Console adresi => https://console.aws.amazon.com/
+
+## REGION SEÇİMİ
+
+# Bu uygulamada region olarak Ireland Region (eu-west-1) kullanılmıştır. Bu region içinde toplamda 3 adet Avalability Zone bulunmaktadır. (eu-west-1a , eu-west-1b , eu-west-1c)
+
+## VPC OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Your VPC" alanı seçilir.
+# 2) "Create VPC" buttonu ile "Webinar-VPC" isminde 10.0.0.0/16 CIDR IPv4 tanımlamaları yapılır ve "Create" buttonu tıklanır.
+# 3) Dashboard üzerinde "Webinar-VPC" seçilir. "Actions" buttonu ile "Edit DNS hostnames" seçilir. DNS hostnames enable aktif hale getirilir.
+
+## INTERNET GATEWAY OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Internet Gateways" alanı seçilir.
+# 2) "Create internet gateway" buttonu ile "Webinar-IG" isminde bir gateway oluşturulur.
+# 3) Dashboard üzerinde "Webinar-IG" seçilir. "Actions" buttonu ile "Attach to VPC" seçilir. Dropdown üzerinden Webinar-VPC seçilerek Attach buttonu ile atama gerçekleştirilir.
+
+## SUBNETLERİ OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Subnets" alanı seçilir.
+# 2) "Create Subnet" buttonu ile Name tag= Webinar-Public Subnet 1, VPC= Webinar-VPC, Avalability Zone= eu-west-1a,  IPv4 CIDR block= 10.0.0.0/24 atamaları yapılır ve  "Create" buttonu tıklanır.
+# 3) Dashboard üzerinde "Webinar-Public Subnet 1" seçilir. "Actions" buttonu ile "Modify auto-assign IP settings" seçilir. Auto-assign IPv4 enable aktif hale getirilir.
+# 4) "Create Subnet" buttonu ile Name tag= Webinar-Public Subnet 2, VPC= Webinar-VPC, Avalability Zone= eu-west-1b,  IPv4 CIDR block= 10.0.1.0/24 atamaları yapılır ve  "Create" buttonu tıklanır.
+# 5) Dashboard üzerinde "Webinar-Public Subnet 2" seçilir. "Actions" buttonu ile "Modify auto-assign IP settings" seçilir. Auto-assign IPv4 enable aktif hale getirilir.
+# 6) "Create Subnet" buttonu ile Name tag= Webinar-Private Subnet 1, VPC= Webinar-VPC, Avalability Zone= eu-west-1a,  IPv4 CIDR block= 10.0.2.0/23 atamaları yapılır ve  "Create" buttonu tıklanır.
+# 7) "Create Subnet" buttonu ile Name tag= Webinar-Private Subnet 2, VPC= Webinar-VPC, Avalability Zone= eu-west-1b,  IPv4 CIDR block= 10.0.4.0/23 atamaları yapılır ve  "Create" buttonu tıklanır.
+
+## ROOT TABLELARI OLUŞTURMA :
+
+# 1) "Create Route Table" buttonu ile Name tag= Webinar-Public Route Table 1, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 2) "Webinar-Public Route Table 1" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Public Subnet 1 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir
+# 3) "Create Route Table" buttonu ile Name tag= Webinar-Public Route Table 2, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 4) "Webinar-Public Route Table 2" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Public Subnet 2 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir
+# 5) "Create Route Table" buttonu ile Name tag= Webinar-Private Route Table 1, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 6) "Webinar-Private Route Table 2" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Private Subnet 1 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir.
+# 5) "Create Route Table" buttonu ile Name tag= Webinar-Private Route Table 2, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 6) "Webinar-Private Route Table 2" alt menüsü üzerinde "Subnet Associations" tabı seçilir. Edit subnet associations buttonu ile Webinar-Private Subnet 2 ataması yapılarak save buttonu ile kayıt işlemi gerçekleştirilir.
+
+
+## NAT GATEWAY OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "NAT Gateways" alanı seçilir.
+# 2) "Create NAT gateway" buttonu ile gele ekran üzerinden subnet için Webinar-Public Subnet 1 seçilir ve ElasticIP ataması yapılır.
+# 3) Açılan menü üzerinden oluşturulan olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Public NAT 1" ismi atanır.
+# 4) Route Table menüsü üzerinden Webinar-Private Route Table 1 seçilerek Edit Rule=> Add Rule ,ile 0.0.0.0/0 ve Webinar-Private NAT 1 atamaları gerçekleştirilir.
+# 5) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "NAT Gateways" alanı seçilir.
+# 6) "Create NAT gateway" buttonu ile gele ekran üzerinden subnet için Webinar-Public Subnet 2 seçilir ve ElasticIP ataması yapılır.
+# 7) Açılan menü üzerinden oulşturulan olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Public NAT 2" ismi atanır.
+# 8) Route Table menüsü üzerinden Webinar-Private Route Table 2 seçilerek Edit Rule=> Add Rule ,ile 0.0.0.0/0 ve Webinar-Private NAT 2 atamaları gerçekleştirilir.
+
+## SECURITY GROUP OLUŞTURMA :
+
+# 1) Console üzerinde VPC hizmeti seçilerek sol menü üzerinden "Security Groups" alanı seçilir.
+# 2) "Create security group" buttonu ile Security group name= Webinar-Public-LB,Description= Webinar-Public-LB, VPC= Webinar-VPC atamaları yapılır ve  "Create" buttonu tıklanır.
+# 3) Açılan menü üzerinden group name Webinar-Public-LB olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-LB-SG" ismi atanır.
+# 4) Webinar-LB-SG seçilerek alt menü üzerinden Inbound Rules tabı seçilir Edit rules => Add Rule tıklanarak
+ Type= HTTP, Protocol= TCP, Port= 80, Source=Anywhere seçilerek Save rules buttonu ile ilgili Port ataması yapılır.
+ Type= HTTPS, Protocol= TCP, Port= 443, Source=Anywhere seçilerek Save rules buttonu ile ilgili Port ataması yapılır.
+# 5) "Create security group" buttonu ile Security group name= Webinar-Private-App, Description= Webinar-Private-App, VPC= Webinar-VPC atamaları yapılır ve "Create" buttonu tıklanır.
+# 6) Açılan menü üzerinden group name Webinar-Private-App olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-AppServer-SG" ismi atanır.
+# 7) Webinar-AppServer-SG seçilerek alt menü üzerinden Inbound Rules tabı seçilir Edit rules => Add Rule tıklanarak
+ Type= HTTP, Protocol= TCP, Port= 80, Source=Webinar-LB-SG ataması yapılarak Save rules buttonu ile ilgili Security Group ataması yapılır.
+# 8) "Create security group" buttonu ile Security group name= Webinar-Private-DB, Description= Webinar-Private-DB, VPC= Webinar-VPC atamaları yapılır ve "Create" buttonu tıklanır.
+# 9) Açılan menü üzerinden group name Webinar-Private-DB olan kayıt seçilerek Name alanı üzerindeki kalem simgesi tıklanarak "Webinar-Database-SG" ismi atanır.
+# 10) Webinar-Database-SG seçilerek alt menü üzerinden Inbound Rules tabı seçilir Edit rules => Add Rule tıklanarak
+ Type= MYSQL/Aurora, Protocol= TCP, Port= 3306, Source=Webinar-AppServer-SG ataması yapılarak Save rules buttonu ile ilgili Security Groups ataması yapılır.
+
+## KEY-PAIR OLUŞTURMA :
+
+# 1) Console üzerinde EC2 hizmeti seçilerek sol menü üzerinden Key-Pairs seçilir.
+# 2) Create Key Pair buttonu tıklanır. Name olarak Webinar-KP tanımlaması yapılır. İlgili pem dosyası locale kaydedilir.
+
+## IAM ROLE OLUŞTURMA :
+
+# 1) Console üzerinde IAM hizmeti seçilerek açılan sol menü üzerinden Roles seçilir. 
+# 2) Create Role buttonu tıklanarak açılan ekran üzerinden AWS Service tipi seçilerek EC2 servisi seçilir. Next:Permissions sonra Next: Tags , bir sonraki adımda Next Review buttonları tıklanır.
+# 3) Açılan ekranda Role Name= Inventory_App_Role olarak ilgili role oluşturulur.
+# 4) Search alanından Inventory_App_Role bulunur.Role içine girildikten sonra Add inline Policy tıklanarak açılan ekranda JSON tabı seçilir. Github reposundaki 04_Inventory-App-Role-JSON.txt dosyası içindeki policy kopyalanıp text editöre yapıştırılır. Preview Policy buttonu tıklanarak Name= root ataması yapılır ve Create Policy buttonu ile ilgili işlem tamamlanır.
+
+## RDS MULTI-AZ İLE HIGH AVAILABLE DATABASE OLUŞTURMA :
+
+# 1) Console üzerinde RDS hizmeti seçilerek açılan ekranda sol menü üzerinden Subnet groups alanı seçilir.
+# 2) Create DB subnet group buttonu tıklanarak Name= Webinar-Db Subnet Group, Description= Webinar-Db Subnet Group,VPC= Webinar-VPC seçilir.Add all the subnets related to this VPC seçilerek public subnet'e ait 10.0.0.0/24 ve 10.0.1.0/24 CIDR bloklu Subneter Remove edilir ve create buttonu ile ilgili subnet group oluşturulması tamamlanır.
+# 3) Console üzerinde RDS hizmeti seçilerek açılan ekranda sol menü üzerinden Snapshots alanı seçilir.
+# 4) Snapshots ekranında Owned By Me yazan dropdown üzerinden All Public Snapshots seçilerek search alanında "inventory-db-webinar" yazılarak arn:aws:rds:eu-west-1:138340313734:snapshot:inventory-db-webinar snapshot'ına ulaşılır.
+# 5) Bulunan snapshot seçilerek Actions alanından Restore DB Instance tıklanır.DB Instance class olarak db.t2.small tipi seçilir.
+# 6) DB Instance Identifier= inventory-db,VPC= Webinar-VPC, subnet group= Webinar-DB Dubnet Group, Public Accessibility= No,Multi-AZ Deployment=Yes tanımlamaları yapılır.
+# 7) VPC security groups alanından Choose existing VPC security groups seçilerek Default-VPC kaldırılıp yerine Webinar-Private Security group seçilir.Kalan ayarlamalar default bırakılır. Restore DB Instance buttonu ile DB nin kurulumu gerçekleştirilir.
+# 8) RDS restore işlemi tamamlanması yaklaşık olarak 5 dakikalık bir zaman almaktadır.
+
+## ELB ELASTIC LOAD BALANCER OLUŞTURMA :
+
+# 1) Console üzerinde EC2 hizmeti seçilerek açılan sol menü üzerinde Load Balancers alanı tıklanır.
+# 2) Create Load Balancer buttonu tıklanarak açılan ekran üzerinden "Application Load Balancer" Seçimi yapılır ve Create Buttonu tıklanır.
+# 3) Name ataması için Webinar-LB kullanarak , Availability zone alanında VPC için Webinar-VPC, Availability Zone 1 için Webinar-Public Subnet 1, Availability Zone 2 için Webinar-Public Subnet 2 seçilir.
+# 4) Configure Security Setting alanı içinden select existing security group seçilerek Webinar-LB-SG ataması yapılır.
+# 5) Configure Routing aşamasında Name= Inventory-App ataması yapılır. (Auto Scaling içinde bu Name ataması ile instancelarımızı oluşturacağız.)
+# 6) Advanced healt check settings alanından healthy treshold=2 ve Interval=10 ataması yapılır.
+# 7) Register target adımı atlanacaktır. (Auto Scaling aşamasında target group tanımlanacaktır).
+# 8) Create buttonu ile Application Load Balancer oluşturulmuş olacaktır.
+
+## AUTO SCALING GROUP OLUŞTURMA :
+
+# 1) Console üzerinde EC2 hizmeti seçilerek açılan sol menü üzerinde Auto Scaling Groups alanı tıklanır.
+# 2) Create Auto Scaling Group buttonu tıklanarak açılan ekran üzerinden Get Started tıklanır.
+# 3) Launch Configuration ile gerekli işlemler başlatılır. Adım 1- AMI=Amazon Linux 2 AMI , Adım 2- Instance Type=t2.micro , Adım 3- Configure Details Name= Webinar-LC,IAM Role=Inventory_App_Role, user data olarak github reposu içindeki 03_ec2_userdata.txt içeriği kopyalanır, Adım 4- default ayarlar kullanılır , Adım 5- Select an existing Security Group ile Webinar-App-SG group seçilir ve gerekli kural kabul edilerek Create launch configuration buttonu tıklanır.
+# 4) Create Auto Scaling Group ile gerekli işlemlere devam edilir. Adım 1- Group Name= Webinar-ASG, group size= 2, network=Webinar-VPC, subnet=Webinar-PrivateSubnet 1 ve Webinar-Private Subnet 2 seçilir. Advanced Details altında Load Balancing alanı seçilerek Target Group olarak Inventory App seçilir. Adım 2- Configure Scaling Policies için Keep this group at its initial size seçilir. Adım 3- default olarak seçilir. Adım 4- Configure Tags Name=Inventory-App ataması yapılır ve Create Auto Scaling Group buttonu ile ilgili işlem tamamlanır. 
+# 5) Gelen ekran üzerinden refresh yapılarak 2 instance oluştuğu kontrol edilmelidir.
+
+## WEB UYGULAMASI TESTİ :
+
+# 1) EC2 Servisi altında açılan sol menüden Target Groups alanında Inventory-App group seçilip alt menüden Targets alanına bakılır ve Registered Target olarak 2 adet instance bulunur. 2 instance da status durumunda healthy olarak gözükecektir. 
+# 2) Aynı menü içindeki Load Balancers alanında Webinar-LB için DNS name alanındaki link kopyalanarak browser üzerinde açılır.
+# 3) Browser üzerinde her refresh yapıldığı takdirde web sayfası üzerinde Instance ID ve AZ isminin değiştiği gözükmektedir.
+
+## HIGH AVAILABILITY TESTİ :
+
+EC2 için 
+# 1) EC2 Servisi altında açılan sol menüden Instances alanı seçilir.
+# 2) Inventory-App instancelarından 1 tanesi secilir ve Actions alanından => Instance State=> Terminate seçilir.
+# 3) Browser üzerinden Web application sayfası tekrar tekrar refreshlenirse sadece 1 adet AZ üzerinden response alabileceğiz.
+# 4) Instances Sekmesine döndüğümüzde terminate olan instance yerine yeni bir tane instance create edildiği görülebilmektedir.
+
+RDS için
+# 1) RDS Servisi altında açılan sol menüden Databases alanı seçilir.
+# 2) İlgili database inventory-db seçildikten sonra  Actions alanından => Reboot => Reboot with failure seçilerek ilgili veritabanının bir hata alması sağlanır.
+# 3) Browser üzerinden Web application sayfası tekrar tekrar yinelenirse Bir ara 504 Gateway Timeout hatası alındığı görülebilecektir.
+# 4) Yinelenme devam ettikçe Replike edilmiş veritabanı ayağa kalkacak ve uygulamamız tekrardan çalışır hale gelecektir.
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+ 
+
+
+
+
